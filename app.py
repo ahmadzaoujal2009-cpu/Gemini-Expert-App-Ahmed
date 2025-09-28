@@ -150,7 +150,7 @@ if mode == "1. وضع المحادثة الهجينة (ذاكرة + بحث فو�
 
         if is_identity_question:
             # Customized response
-            custom_response = "أنا نموذج لغوي كبير، وقد تم تطويري وإنشائي بواسطة **أحمد الزاوجال** كجزء من مشروعه التعليمي المتميز! 💻"
+            custom_response = "أنا نموذج لغوي كبير، وقد تم تطويري وإنشائي بواسطة **أحمد الزوجال** كجزء من مشروعه التعليمي المتميز! 💻"
             
             # Display custom response
             with st.chat_message("assistant"):
@@ -208,6 +208,7 @@ elif mode == "2. وضع التحليل المنظم (Structured Search & Explain
             st.markdown("---")
             st.markdown(f"## 🧠 Simplified Explanation for {search_topic}:")
             st.write(simplified_explanation)
+
 
 
 
