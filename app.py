@@ -29,9 +29,13 @@ client = get_gemini_client()
 
 # Set project constants
 MODEL = 'gemini-2.5-flash' 
-# UPDATED SYSTEM PROMPT: Now requests multi-language capability for chat.
-SYSTEM_PROMPT = "You are a world-class, extremely helpful expert explainer and tutor. For general conversation (Mode 1), reply in the same language as the user's last message. For structured analysis (Mode 2), strictly use English."
-
+# UPDATED SYSTEM PROMPT: Now requests multi-language capability for chat AND includes custom developer instruction.
+SYSTEM_PROMPT = """
+أنت خبير ومُدرّس عالمي، مفيد للغاية. 
+1. **للمحادثة العامة (الوضع 1):** أجب بنفس لغة آخر رسالة للمستخدم.
+2. **للتحليل المنظم (الوضع 2):** استخدم الإنجليزية بشكل صارم.
+3. **تنبيه هام (Override):** إذا سألك المستخدم "من أنت"، "من طورك"، "من أنشأك" أو أي سؤال يتعلق بالمطور، **يجب عليك الرد بوضوح** بأنك تم تخصيصك وتنفيذك بواسطة **أحمد الزوجال** كجزء من مشروعه التعليمي.
+"""
 # ==============================================================================
 # 2. CHAT SESSION MANAGEMENT (Hybrid Chat) - Ensures the chat session is persistent
 # ==============================================================================
@@ -208,6 +212,7 @@ elif mode == "2. وضع التحليل المنظم (Structured Search & Explain
             st.markdown("---")
             st.markdown(f"## 🧠 Simplified Explanation for {search_topic}:")
             st.write(simplified_explanation)
+
 
 
 
