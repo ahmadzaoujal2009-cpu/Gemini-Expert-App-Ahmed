@@ -50,7 +50,7 @@ if "gemini_chat" not in st.session_state:
 # Initialize chat messages list with a welcome message
 if "chat_messages" not in st.session_state:
     # Changed welcome message to Arabic
-    st.session_state.chat_messages = [{"role": "assistant", "content": "مرحباً أحمد! أنا خبيرك التعليمي. يمكنك سؤالي بأي لغة وسأرد عليك بها، وسأتذكر حوارنا."}]
+    st.session_state.chat_messages = [{"role": "assistant", "content": "مرحباً! أنا خبيرك التعليمي. يمكنك سؤالي بأي لغة وسأرد عليك بها، وسأتذكر حوارنا."}]
 
 # ==============================================================================
 # 3. STRUCTURED SEARCH AND EXPLAIN FUNCTION (For specific structured output)
@@ -179,4 +179,5 @@ elif mode == "2. وضع التحليل المنظم (Structured Search & Explain
             st.markdown("---")
             st.markdown(f"## 🧠 Simplified Explanation for {search_topic}:")
             st.write(simplified_explanation)
+
 
