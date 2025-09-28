@@ -138,24 +138,53 @@ if mode == "1. وضع المحادثة الهجينة (ذاكرة + بحث فو�
         # 2. Add user message to history
         st.session_state.chat_messages.append({"role": "user", "content": prompt})
 
-        # 3. Get AI response and display it
-        with st.chat_message("assistant"):
-            with st.spinner("جاري التفكير والبحث الفوري..."):
-                try:
-                    # Send tools and system_instruction inside the 'config' object
-                    # SYSTEM_PROMPT now guides the model to reply in the user's language
-                    response = st.session_state.gemini_chat.send_message(
-                        prompt, 
-                        config=types.GenerateContentConfig(
-                            tools=[{"google_search": {}}],
-                            system_instruction=SYSTEM_PROMPT
-                        )
-                    )
-                    st.markdown(response.text)
-                    st.session_state.chat_messages.append({"role": "assistant", "content": response.text})
+        # ===============================================================
+        #  🔥 NEW: Identity Check (فحص الهوية)
+        # ===============================================================
+        
+        # Check for identity questions using lower case for flexibility
+        identity_keywords = ["من أنت", "من أنشأك", "من طورك", "who are you", "who made you"]
+        
+        # Determine if the prompt contains any of the identity keywords
+        is_identity_question = any(keyword in prompt.lower() for keyword in identity_keywords)
 
-                except Exception as e:
-                    st.error(f"حدث خطأ: {e}")
+        if is_identity_question:
+            # Customized response
+            custom_response = "أنا نموذج لغوي كبير، وقد تم تطويري وإنشائي بواسطة **أحمد الزاوجال** كجزء من مشروعه التعليمي المتميز! 💻"
+            
+            # Display custom response
+            with st.chat_message("assistant"):
+                st.markdown(custom_response)
+            
+            # Add custom response to history and stop processing for this input
+            st.session_state.chat_messages.append({"role": "assistant", "content": custom_response})
+            # To ensure the chat window updates immediately
+            st.rerun() 
+            # Note: The code below the 'else' block will handle the standard Gemini call.
+
+        # ===============================================================
+        #  END OF NEW: Identity Check
+        # ===============================================================
+
+        else: # Proceed with standard Gemini Chat call if it's not an identity question
+            # 3. Get AI response and display it
+            with st.chat_message("assistant"):
+                with st.spinner("جاري التفكير والبحث الفوري..."):
+                    try:
+                        # Send tools and system_instruction inside the 'config' object
+                        # SYSTEM_PROMPT now guides the model to reply in the user's language
+                        response = st.session_state.gemini_chat.send_message(
+                            prompt, 
+                            config=types.GenerateContentConfig(
+                                tools=[{"google_search": {}}],
+                                system_instruction=SYSTEM_PROMPT
+                            )
+                        )
+                        st.markdown(response.text)
+                        st.session_state.chat_messages.append({"role": "assistant", "content": response.text})
+
+                    except Exception as e:
+                        st.error(f"حدث خطأ: {e}")
 
 # ==============================================================================
 # 4.2. STRUCTURED SEARCH MODE LOGIC (No Memory, Structured Output)
@@ -179,5 +208,6 @@ elif mode == "2. وضع التحليل المنظم (Structured Search & Explain
             st.markdown("---")
             st.markdown(f"## 🧠 Simplified Explanation for {search_topic}:")
             st.write(simplified_explanation)
+
 
 
